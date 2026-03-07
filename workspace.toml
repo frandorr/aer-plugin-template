@@ -1,5 +1,5 @@
 [tool.polylith]
-namespace = "example"
+namespace = "aer-search-earthaccess"
 
 [tool.polylith.structure]
 theme = "loose"

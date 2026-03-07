@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "python-polylith-template-with-uv"
+name = "aer-search-earthaccess-root"
 version = "0.1.0"
 description = "A Python Polylith template code repo"
 readme = "README.md"
@@ -42,3 +42,9 @@ line-length = 120
 venvPath = "."
 venv = ".venv"
 extraPaths = ["components/", "bases/"]
+
+[dependency-groups]
+dev = [
+    "polylith-cli>=1.43.0,<2.0.0",
+    "pytest>=9.0.2,<10.0.0",
+]
