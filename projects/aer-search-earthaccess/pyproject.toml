@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "aer-search-earthaccess"
 version = "0.1.0"
 description = "Polylith project for the earthaccess search plugin"
-authors = [{ name = "Your Name" }]
+authors = [{ name = "Fran Dorr" }]
 
 requires-python = ">=3.13"
 
