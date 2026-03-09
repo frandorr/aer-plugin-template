@@ -1,103 +1,110 @@
-# Python Polylith Template with `uv`
+# 🚀 aer Plugin Template
 
-A minimal template repository for aer plugins using the [Polylith architecture](https://davidvujic.github.io/python-polylith-docs/setup/), powered by `uv` for lightning-fast dependency management, and `prek` for git hooks.
+Welcome to the **aer plugin template**! This repository is your starting point for building high-performance, modular plugins for the `aer` ecosystem. 
 
-### Creating Plugins (aer)
+Powered by the [Polylith architecture](https://davidvujic.github.io/python-polylith-docs/setup/) and `uv` for lightning-fast dependency management, this template ensures your plugin is scalable, maintainable, and ready for production.
 
-In `aer`, plugins typically consist of a component (for the logic) and a project (for packaging). You can use the Polylith CLI to create these.
+---
 
-**Important Rules**:
-- **Prefix**: Plugin projects must use the `aer-` prefix (e.g., `aer-search-myprovider`) to be easily discoverable and identifiable within the ecosystem.
-- **Versioning**: Plugins should use [Semantic Versioning](https://semver.org/) (SemVer) for their releases.
+## ⚡ Quick Start
 
-**Example: Creating a Search Plugin**
+If you are new here, **start with the setup script**. It will bootstrap your environment, name your project, and create your first component automatically.
+
 ```bash
-uv run poly create component --name search_myprovider
-uv run poly create project --name aer-search-myprovider
+chmod +x setup.sh
+./setup.sh
 ```
 
-After implementing your logic (e.g., `search_myprovider(request: SearchRequest) -> SearchResult`), register the plugin in the project's `pyproject.toml` so `aer-core` can discover it:
-```toml
-[project.entry-points."aer.plugins"]
-myprovider = "aer.search_myprovider.core:search_myprovider"
-```
+<details>
+<summary><b>🔍 What does the setup script do?</b></summary>
 
-**Example: Creating a Spectral Plugin**
-```bash
-uv run poly create component --name spectral_myinstrument
-uv run poly create project --name aer-spectral-myinstrument
-```
+The `setup.sh` script automates the tedious parts of starting a new Polylith plugin:
+1.  **Validation**: Ensures your project name follows the `aer-` prefix rule.
+2.  **Environment**: Installs `uv` (if missing) and sets up the workspace dependencies.
+3.  **Scaffolding**: Creates your first **Component** (for code) and **Project** (for packaging).
+4.  **Configuration**: Generates a pre-configured `pyproject.toml` with standard entry points so `aer-core` can immediately find your plugin.
+5.  **Git Hooks**: Installs `prek` to ensure high-quality commits from day one.
+</details>
 
-Register the spectral plugin in its `pyproject.toml` similarly:
-```toml
-[project.entry-points."aer.plugins"]
-myinstrument = "aer.spectral_myinstrument.core:spectral_myinstrument"
-```
+> [!IMPORTANT]
+> The setup script is mandatory for new project initialization. It ensures consistent naming conventions (`aer-` prefix) and registers your plugin entry points correctly.
 
-### Inspecting the Workspace
+---
 
-Polylith shines at giving you an overview of your monorepo. Check your projects, bases, and components with:
+## 🏗️ Architecture Overview
 
+This project uses a **Polylith** structure. Instead of a messy monolith, code is organized into:
+
+*   **Components**: Pure logic and functionality (found in `components/`).
+*   **Projects**: Deployable artifacts like PyPI packages (found in `projects/`).
+*   **Bases**: Public APIs or entry points (CLI, FastAPI, etc.).
+
+### Why Polylith?
+It allows you to share code between different projects within the same workspace perfectly, while keeping your deployments lean.
+
+---
+
+## 🛠️ Development Workflow
+
+Once you've run the setup script, here is how you work with your new plugin:
+
+### 1. Project Info
+See the state of your workspace, which components are used by which projects:
 ```bash
 uv run poly info
 ```
 
----
+### 2. Adding Dependencies
+Use `uv` to manage your environment:
+```bash
+uv add requests          # Add to the workspace
+uv add --group dev pytest  # Add development tools
+```
 
-## Development Workflow
-
-1. **Install dependencies:**  
-   If you need to manually sync your environment or add third-party dependencies, use `uv`:
-   ```bash
-   uv sync
-   uv add requests
-   uv add --group dev pytest
-   ```
-
-2. **Run tests:**  
-   You can run your tests across the entire workspace easily using `pytest`. The template enables tests globally across components:
-   ```bash
-   uv run pytest
-   ```
-
-3. **Hooks (prek):**  
-   We use `prek` for streamlined commit checks. The setup script installs it globally via `uv tool install prek`. You can use it to configure git workflows without heavy external dependencies.
+### 3. Running Tests
+Tests are enabled globally. Run them with:
+```bash
+uv run pytest
+```
 
 ---
 
-## Releasing Plugins
+## 📦 Creating More Components (Advanced)
 
-Releases are managed using [Conventional Commits](https://www.conventionalcommits.org/) and `python-semantic-release`. A helper script is provided in `.agents/scripts/release.py`.
+If your plugin grows and you need to split logic into more components, you can use the Polylith CLI:
 
-### Automated Versioning
+```bash
+# Create a new component
+uv run poly create component --name my_new_feature
 
-The `release.py` script analyzes your commit history since the last tag to determine the next version (patch, minor, or major).
+# Create a new project (if you want to ship a separate package)
+uv run poly create project --name aer-my-other-package
+```
 
-1.  **Commit your changes** using conventional prefixes (e.g., `feat:`, `fix:`, `chore:`).
+---
+
+## 🚀 Releasing Plugins
+
+Releases are automated using [Conventional Commits](https://www.conventionalcommits.org/) and `python-semantic-release`.
+
+1.  **Commit with prefixes**: Use `feat:`, `fix:`, or `chore:` in your commit messages.
 2.  **Run the release script**:
     ```bash
     # Release a specific project
-    python3 .agents/scripts/release.py aer-search-myprovider
+    python3 .agents/scripts/release.py aer-my-plugin
 
-    # Release all projects with pending changes
+    # Release all changed projects
     python3 .agents/scripts/release.py --changed
     ```
 
-The script will:
-- Update the version in `projects/<project>/pyproject.toml`.
-- Create a release commit and a git tag (e.g., `aer-search-myprovider-v1.0.1`).
-- Push the tag to `origin`.
+### 🤖 Agentic Workflow
+If you are working with **Antigravity** or another AI assistant, you can simply say:
+> "Release my plugin" or "Create a new release for aer-search-earthaccess"
 
-### AI Assistant (Antigravity/Agentic)
-
-If you are using an AI assistant like Antigravity, you can simply ask:
-> "Release aer-search-myprovider"
-
-It will use the `new-release` skill to execute the workflow automatically.
-
+The assistant will use the `new-release` skill to handle the versioning, tagging, and pushing for you.
 
 ---
 
-## License
+## 📜 License
 
-MIT
+This template is licensed under the [MIT License](LICENSE).

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "aer-plugin-template"
-version = "0.1.0"
+version = "1.1.0"
 description = "A template code repo for aer plugins"
 readme = "README.md"
 requires-python = ">=3.13"
