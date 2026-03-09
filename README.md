@@ -1,63 +1,6 @@
 # Python Polylith Template with `uv`
 
-A minimal template repository for Python projects using the [Polylith architecture](https://davidvujic.github.io/python-polylith-docs/setup/), powered by `uv` for lightning-fast dependency management, and `prek` for git hooks.
-
-## Philosophy
-
-This repository is designed to be a clean, modern starting point for teams looking to use:
-* **Polylith** for a modular, monorepo-friendly and maintainable architecture.
-* **uv** for exceptionally fast and reliable Python packaging and virtual environments.
-* **prek** for lightweight, tool-managed git hooks instead of traditional pre-commit.
-
----
-
-## Getting Started
-
-### Prerequisites
-
-To get started, you don't need anything pre-installed if you use the provided setup script. The setup script will automatically install `uv` (if not present) and `prek`. If you prefer to set things up manually, ensure you have `uv` installed.
-
-### Automatic Setup
-
-Run the setup script:
-
-```bash
-./setup.sh
-```
-
-The script will automatically do the heavy lifting:
-1. Prompt you for a simple project name.
-2. Update the `name` in `pyproject.toml` and the `namespace` in `workspace.toml` automatically.
-3. Install `uv` (if it's not already installed on your system).
-4. Add `polylith-cli` as a development dependency and run `uv sync` to set up your virtual environment.
-5. Install `prek` globally via `uv tool install prek`.
-
----
-
-## Project Structure
-
-Polylith organizes your codebase into interchangeable blocks, prioritizing composability:
-
-* `components/` – Reusable functional blocks (the core logic). They are the lego bricks of your application.
-* `bases/` – Application entry points (e.g., an API router, a CLI task, or an AWS Lambda handler), acting as the outer shell exposing features.
-* `projects/` – Deployable artifacts that compose one or more bases and components. They do not contain logic directly, just assembling the pieces.
-
-For more detailed information about Polylith and how its concepts apply in Python, check out the [official Python Polylith Documentation](https://davidvujic.github.io/python-polylith-docs/setup/).
-
-### Creating Blocks
-
-You can create components, bases, and projects effortlessly using the Polylith CLI (which is available via `uv run` once synced):
-
-```bash
-# Create a new component
-uv run poly create component --name my_component
-
-# Create a new base
-uv run poly create base --name my_base
-
-# Create a new project
-uv run poly create project --name my_project
-```
+A minimal template repository for aer plugins using the [Polylith architecture](https://davidvujic.github.io/python-polylith-docs/setup/), powered by `uv` for lightning-fast dependency management, and `prek` for git hooks.
 
 ### Creating Plugins (aer)
 
@@ -119,6 +62,39 @@ uv run poly info
 
 3. **Hooks (prek):**  
    We use `prek` for streamlined commit checks. The setup script installs it globally via `uv tool install prek`. You can use it to configure git workflows without heavy external dependencies.
+
+---
+
+## Releasing Plugins
+
+Releases are managed using [Conventional Commits](https://www.conventionalcommits.org/) and `python-semantic-release`. A helper script is provided in `.agents/scripts/release.py`.
+
+### Automated Versioning
+
+The `release.py` script analyzes your commit history since the last tag to determine the next version (patch, minor, or major).
+
+1.  **Commit your changes** using conventional prefixes (e.g., `feat:`, `fix:`, `chore:`).
+2.  **Run the release script**:
+    ```bash
+    # Release a specific project
+    python3 .agents/scripts/release.py aer-search-myprovider
+
+    # Release all projects with pending changes
+    python3 .agents/scripts/release.py --changed
+    ```
+
+The script will:
+- Update the version in `projects/<project>/pyproject.toml`.
+- Create a release commit and a git tag (e.g., `aer-search-myprovider-v1.0.1`).
+- Push the tag to `origin`.
+
+### AI Assistant (Antigravity/Agentic)
+
+If you are using an AI assistant like Antigravity, you can simply ask:
+> "Release aer-search-myprovider"
+
+It will use the `new-release` skill to execute the workflow automatically.
+
 
 ---
 

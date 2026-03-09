@@ -3,13 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "python-polylith-template-with-uv"
+name = "aer-plugin-template"
 version = "0.1.0"
-description = "A Python Polylith template code repo"
+description = "A template code repo for aer plugins"
 readme = "README.md"
 requires-python = ">=3.13"
 license = "MIT"
-authors = [{ name = "Your Name" }]
+authors = [{ name = "Fran Dorr" }]
 dependencies = ["aer-core"]
 
 [tool.uv]
