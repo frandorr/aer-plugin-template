@@ -44,25 +44,44 @@ It allows you to share code between different projects within the same workspace
 
 ---
 
-## 🛠️ Development Workflow
+## 📖 Reference Plugins
 
-Once you've run the setup script, here is how you work with your new plugin:
+If you want to see how production-ready plugins look in the wild, use these implementations as guides:
+- **Search Plugin Example**: [aer-search-aws-goes](https://github.com/frandorr/aer-search-aws-goes)
+- **Extraction Plugin Example**: [aer-extract-aws-goes](https://github.com/frandorr/aer-extract-aws-goes)
 
-### 1. Project Info
+---
+
+## 🛠️ Development Workflow: Step-by-Step
+
+Once you've run the setup script, here is a step-by-step guide to building your new plugin:
+
+### 1. Identify Your Scaffolding
+The `setup.sh` wizard automatically creates the initial file structure in `components/aer/your_component/`. Inside, you will find a `core.py` that inherits from the correct base class:
+- `SearchProvider` for projects starting with `aer-search-`.
+- `Extractor` for projects starting with `aer-extract-`.
+
+### 2. Implement Plugin Logic
+Open `components/aer/your_component/core.py`.
+- **For Search Providers**: Override the `search()` method to return a GeoDataFrame matching the `AssetSchema`.
+- **For Extractors**: Override `prepare_for_extraction()`, `extract()`, and potentially `extract_batches()` to handle processing workflows and return an `ArtifactSchema` GeoDataFrame. 
+*(Hint: Peek into the [Reference Plugins](#-reference-plugins) to see exact implementations!)*
+
+### 3. Check Workspace Info
 See the state of your workspace, which components are used by which projects:
 ```bash
 uv run poly info
 ```
 
-### 2. Adding Dependencies
-Use `uv` to manage your environment:
+### 4. Adding Dependencies
+Use `uv` to manage your environment. For example:
 ```bash
 uv add requests          # Add to the workspace
 uv add --group dev pytest  # Add development tools
 ```
 
-### 3. Running Tests
-Tests are enabled globally. Run them with:
+### 5. Running Tests
+Tests are enabled globally. Write your tests inside `components/aer/your_component/test/` and run them with:
 ```bash
 uv run pytest
 ```

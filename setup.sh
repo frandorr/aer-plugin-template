@@ -76,6 +76,19 @@ PROJECT_PYPROJECT="projects/$PROJECT_NAME/pyproject.toml"
 
 echo -e "Customizing ${BLUE}$PROJECT_PYPROJECT${NC}..."
 
+# Generate Class Name and Base Class Info
+CLASS_NAME=$(echo "$PLUGIN_PART" | awk -F'-' '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))} 1' OFS='')
+if [[ "$PLUGIN_PART" == search-* ]]; then
+    BASE_CLASS="SearchProvider"
+    IMPORT_STMT="from aer.interfaces import SearchProvider"
+elif [[ "$PLUGIN_PART" == extract-* ]]; then
+    BASE_CLASS="Extractor"
+    IMPORT_STMT="from aer.interfaces import Extractor"
+else
+    BASE_CLASS="Plugin"
+    IMPORT_STMT="from aer.interfaces import Plugin"
+fi
+
 cat <<EOF > "$PROJECT_PYPROJECT"
 [build-system]
 requires = ["hatchling", "hatch-polylith-bricks"]
@@ -100,14 +113,33 @@ Issues = "https://github.com/$GITHUB_ORG/$PROJECT_NAME/issues"
 Repository = "https://github.com/$GITHUB_ORG/$PROJECT_NAME"
 
 [project.entry-points."aer.plugins"]
-$COMPONENT_NAME = "aer.$COMPONENT_NAME.core:$COMPONENT_NAME"
+$COMPONENT_NAME = "aer.$COMPONENT_NAME.core:$CLASS_NAME"
 
 [tool.hatch]
+build.dev-mode-dirs = [ "../../components", "../../bases", "../../development", "." ]
 build.hooks.polylith-bricks = {}
 build.targets.wheel.packages = ["aer"]
 
 [tool.polylith]
 bricks."../../components/aer/$COMPONENT_NAME" = "aer/$COMPONENT_NAME"
+EOF
+
+# 6- Overwrite component files with new class-based structure
+CORE_PY="components/aer/$COMPONENT_NAME/core.py"
+echo -e "Scaffolding ${BLUE}$CORE_PY${NC} class..."
+
+cat <<EOF > "$CORE_PY"
+$IMPORT_STMT
+
+class $CLASS_NAME($BASE_CLASS, plugin_abstract=False):
+    pass
+EOF
+
+INIT_PY="components/aer/$COMPONENT_NAME/__init__.py"
+cat <<EOF > "$INIT_PY"
+from .core import $CLASS_NAME
+
+__all__ = ["$CLASS_NAME"]
 EOF
 
 # Install prek tool
