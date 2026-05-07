@@ -11,7 +11,7 @@ resolution-markers = [
 ]
 
 [[package]]
-name = "aer-core"
+name = "aer-eo"
 version = "1.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
@@ -31,6 +31,17 @@ sdist = { url = "https://files.pythonhosted.org/packages/60/a7/1d15aa28f9727a4bb
 wheels = [
     { url = "https://files.pythonhosted.org/packages/57/fd/0f33a71292eb5101c7ed7e20653e9e70752acf06b7494949b4fcfd7e3559/aer_core-1.2.0-py3-none-any.whl", hash = "sha256:3d3649cfb53f9860be9e3c68a1a9b8ee4cc7310f90f42a591062c12b7b21648c", size = 738002, upload-time = "2026-03-08T22:15:49.988Z" },
 ]
+
+[[package]]
+name = "aer-plugin-template"
+version = "1.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "aer-eo" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "aer-eo" }]
 
 [[package]]
 name = "annotated-types"
@@ -535,17 +546,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/82/ed/0301aeeac3e5353ef
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0b/d7/1959b9648791274998a9c3526f6d0ec8fd2233e4d4acce81bbae76b44b2a/python_dotenv-1.2.2-py3-none-any.whl", hash = "sha256:1d8214789a24de455a8b8bd8ae6fe3c6b69a5e3d64aa8a8e5d68e694bbcb285a", size = 22101, upload-time = "2026-03-01T16:00:25.09Z" },
 ]
-
-[[package]]
-name = "python-polylith-template-with-uv"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "aer-core" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "aer-core" }]
 
 [[package]]
 name = "pyyaml"

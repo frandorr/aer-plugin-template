@@ -104,7 +104,7 @@ authors = [{ name = "$AUTHOR_NAME" }]
 requires-python = ">=3.13"
 
 dependencies = [
-    "aer-core",
+    "aer-eo",
 ]
 
 [project.urls]

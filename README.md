@@ -22,7 +22,7 @@ The `setup.sh` script automates the tedious parts of starting a new Polylith plu
 1.  **Validation**: Ensures your project name follows the `aer-` prefix rule.
 2.  **Environment**: Installs `uv` (if missing) and sets up the workspace dependencies.
 3.  **Scaffolding**: Creates your first **Component** (for code) and **Project** (for packaging).
-4.  **Configuration**: Generates a pre-configured `pyproject.toml` with standard entry points so `aer-core` can immediately find your plugin.
+4.  **Configuration**: Generates a pre-configured `pyproject.toml` with standard entry points so `aer-eo` can immediately find your plugin.
 5.  **Git Hooks**: Installs `prek` to ensure high-quality commits from day one.
 </details>
 

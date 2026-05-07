@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 license = "MIT"
 authors = [{ name = "Fran Dorr" }]
-dependencies = ["aer-core"]
+dependencies = ["aer-eo"]
 
 [tool.uv]
 managed = true
